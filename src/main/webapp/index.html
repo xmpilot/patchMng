@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
-    <script src="index.js?v=1"></script>
+    <script src="index.js?v=8"></script>
+    <script src="js/jquery.min.js"></script>
     <style>
         input{
             width: 100%;
@@ -42,14 +43,16 @@
                         <label class="layui-form-label">来源目录</label>
                         <div class="layui-input-block">
                             <input type="text" lay-verify="title" autocomplete="off" placeholder="" class="layui-input"
-                                value="C:\git-source\kiteserver\02_web\build\libs\exploded\02_web-1.0.1-SNAPSHOT.war\">
+                                    id="srcPath"
+                                    value="C:\git-source\kiteserver\02_web\build\libs\exploded\02_web-1.0.1-SNAPSHOT.war\">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">目的目录</label>
                         <div class="layui-input-block">
                             <input type="text" lay-verify="required" placeholder="" autocomplete="off" class="layui-input"
-                                value="C:\发布\kiteServer\">
+                                   id="descPath"
+                                   value="C:\发布\kiteServer\">
                         </div>
                     </div>
                 </form>
@@ -59,21 +62,24 @@
         <div class="layui-col-md6" >
             <div class="layui-card panel">
                 <div style="padding-left: 20px; padding-top: 30px">
-                    <button class="layui-btn">解析文件</button>
-                    <button class="layui-btn layui-btn-normal">清空列表</button>
-                    <button class="layui-btn layui-btn-danger">清空补丁</button>
-                    <button class="layui-btn">复制补丁</button>
+                    <button class="layui-btn" onclick="paserFiles();">解析文件</button>
+                    <button class="layui-btn layui-btn-normal" onclick="clearList();">清空列表</button>
+                    <button class="layui-btn layui-btn-danger" onclick="clearDescPath()">清空补丁</button>
+                    <button class="layui-btn" onclick="copyPatchFiles();">复制补丁</button>
                 </div>
             </div>
         </div>
 
         <div class="layui-col-md6">
             <div class="layui-card">
-                <div class="layui-card-header">输入文件或目录（一行一个）</div>
+                <div class="layui-card-header">输入文件（一行一个）</div>
                 <div class="layui-card-body">
-                    <textarea class="layui-textarea inputBox" >
-inspec_org_report.html
-inspec_org_report.js</textarea>
+                    <textarea id="srcFileList" class="layui-textarea inputBox" >
+inspec_org_report
+InspecBillDetailDao.class
+MaintenStatDto.class
+ConvertUtils.class
+StringUtilsEx</textarea>
                 </div>
             </div>
         </div>
@@ -82,7 +88,7 @@ inspec_org_report.js</textarea>
             <div class="layui-card">
                 <div class="layui-card-header">补丁文件列表</div>
                 <div class="layui-card-body">
-                    <textarea readonly="readonly" class="layui-textarea logBox"></textarea>
+                    <textarea id="patchFileList" readonly="readonly" class="layui-textarea logBox"></textarea>
                 </div>
             </div>
         </div>
