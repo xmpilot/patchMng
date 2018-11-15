@@ -13,6 +13,8 @@ public class MainService {
 
     private boolean oneOfFile(String absFileName, String[] srcFileNames){
         for (String srcFileName : srcFileNames){
+            //去掉java扩展名
+            srcFileName = srcFileName.replace(".java", "");
             if (absFileName.indexOf(srcFileName) >= 0){
                 return true;
             }
