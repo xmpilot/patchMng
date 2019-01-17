@@ -16,7 +16,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.patchMng'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -28,38 +28,3 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
-
-jar {
-    String someString = ''
-    configurations.runtime.each {someString = someString + " lib\\"+it.name}
-    manifest {
-        attributes 'Main-Class': 'com.each.dubboMainEnd'
-        attributes 'Class-Path': someString
-    }
-    //这句没有效果，需要手动拷贝webapp内的文件到jar对应的META-INF/resources目录下
-    into('META-INF/resources'){
-        from('src/main/webapp')
-    }
-}
-
-//需要把页面资料加入jar包的资源目录
-//jar.into('META-INF/resources'){
-//    from('src/main/webapp')
-//}
-
-//清除上次的编译过的文件
-task clearPj(type: Delete){
-    delete 'build','target'
-}
-
-task copyJar(type: Copy) {
-    from configurations.runtime
-    into('build/libs/lib')
-}
-
-//把JAR复制到目标目录
-task release(type: Copy,dependsOn: [build,copyJar]) {
-//    from  'conf'
-//    into ('build/libs/eachend/conf') // 目标位置
-}
-
